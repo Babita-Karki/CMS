@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+    <h1 class="page-title">Student Dashboard</h1>
+    
+    <div class="stats-grid">
+        <div class="card stat-card">
+            <h3>Attendance %</h3>
+            <div class="stat-value">{{ attendance_percent }}%</div>
+        </div>
+        <div class="card stat-card">
+            <h3>Current Semester</h3>
+            <div class="stat-value">{{ student.semester }}</div>
+        </div>
+        <div class="card stat-card">
+            <h3>Course</h3>
+            <div class="stat-value" style="font-size: 1.5rem;">{{ student.course }}</div>
+        </div>
+    </div>
+
+    <!-- Enrolled Subjects -->
+    <div class="card" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 style="font-size: 1.2rem; margin: 0;">My Subjects</h2>
+            <a href="{% url 'enroll_course' %}" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                <i class="fas fa-plus"></i> Enroll New
+            </a>
+        </div>
+        {% if enrollments %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+            {% for enrollment in enrollments %}
+            <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; background: #f8fafc;">
+                <div style="font-weight: 600;">{{ enrollment.subject.name }}</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">{{ enrollment.subject.code }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No subjects enrolled.</p>
+        {% endif %}
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+        <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">Exam Results</h2>
+        {% if results %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Marks Obtained</th>
+                    <th>Total Marks</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result.subject.name }}</td>
+                    <td>{{ result.marks_obtained }}</td>
+                    <td>{{ result.total_marks }}</td>
+                    <td>
+                        <span class="{% if result.marks_obtained|add:0 >= 40 %}text-success{% else %}text-danger{% endif %}" style="font-weight: 600;">
+                            {% widthratio result.marks_obtained result.total_marks 100 %}%
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted">No results published yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Enroll Course{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <h1 class="page-title">Enroll in Courses</h1>
+    
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if available_subjects %}
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 1rem; font-weight: 500;">Select Subjects to Enroll:</label>
+                <div style="display: grid; gap: 0.75rem;">
+                    {% for subject in available_subjects %}
+                    <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.5rem; cursor: pointer; transition: background 0.2s;">
+                        <input type="checkbox" name="subjects" value="{{ subject.id }}">
+                        <span style="font-weight: 500;">{{ subject.name }}</span>
+                        <span style="color: var(--text-muted); font-size: 0.9rem;">({{ subject.code }})</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary">Enroll</button>
+                <a href="{% url 'student_dashboard' %}" class="btn" style="background: #e2e8f0;">Cancel</a>
+            </div>
+            {% else %}
+            <p>You are enrolled in all available courses.</p>
+            <a href="{% url 'student_dashboard' %}" class="btn btn-primary" style="margin-top: 1rem;">Back to Dashboard</a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

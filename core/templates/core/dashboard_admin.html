@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <h1 class="page-title">Admin Dashboard</h1>
+    
+    <div class="stats-grid">
+        <div class="card stat-card">
+            <h3>Total Students</h3>
+            <div class="stat-value">{{ student_count }}</div> 
+        </div>
+        <div class="card stat-card">
+            <h3>Total Faculty</h3>
+            <div class="stat-value">{{ faculty_count }}</div>
+        </div>
+        <div class="card stat-card">
+            <h3>Active Subjects</h3>
+            <div class="stat-value">{{ subject_count }}</div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card">
+        <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">Quick Actions</h2>
+        <div style="display: flex; gap: 1rem;">
+            <a href="{% url 'add_student' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Student</a>
+            <a href="{% url 'add_faculty' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Faculty</a>
+            <a href="{% url 'add_subject' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Create Subject</a>
+        </div>
+    </div>
+{% endblock %}

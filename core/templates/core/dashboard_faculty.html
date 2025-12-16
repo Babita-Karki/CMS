@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Faculty Dashboard{% endblock %}
+
+{% block content %}
+    <h1 class="page-title">Faculty Dashboard</h1>
+    
+    <!-- My Subjects -->
+    <div class="card" style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">My Classes</h2>
+        {% if subjects %}
+        <div style="display: grid; gap: 1rem;">
+            {% for subject in subjects %}
+            <div style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3 style="font-size: 1.1rem; font-weight: 600;">{{ subject.name }}</h3>
+                    <p class="text-muted" style="font-size: 0.9rem;">{{ subject.code }}</p>
+                </div>
+                <div>
+                     <a href="{% url 'mark_attendance' subject.id %}" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                        <i class="fas fa-check-square"></i> Attendance
+                     </a>
+                     <a href="{% url 'add_result' subject.id %}" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.5rem 1rem; margin-left: 0.5rem; background-color: var(--secondary-color);">
+                        <i class="fas fa-star"></i> Grades
+                     </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted">No classes assigned yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}
